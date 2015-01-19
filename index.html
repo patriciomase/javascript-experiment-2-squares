@@ -1,0 +1,79 @@
+<html>
+	<head>
+		<title>Canvas experiment;</title>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
+
+		<style type="text/css">
+			#myCanvas{ border: 4px solid black; background: grey; margin: auto; position: absolute; top: 0; left: 0; bottom: 0; right: 0;}
+		</style>
+	</head>
+
+	<body>
+		<canvas id="myCanvas" width="750" height="450"></canvas>
+		<script type="text/javascript">
+			var c = document.getElementById("myCanvas");
+			var ctx = c.getContext("2d");
+
+			function Shape(x, y, w, h) {
+
+			  	this.x = x || 0;
+			  	this.y = y || 0;
+			  	this.w = w || 1;
+			  	this.h = h || 1;
+			}
+
+			Shape.prototype.draw = function(ctx, color) {
+
+				if(color == true)
+			  		ctx.fillStyle = 'black';
+
+			  	else
+			  		ctx.fillStyle = 'white';
+
+			  	ctx.fillRect(this.x, this.y, this.w, this.h);
+			}
+
+			var squareWidth = 45;
+			var squareHeight = 45;
+
+			var horizontalMargin = 0;
+			var verticalMargin = 2;
+
+			var horizontalSquares = 20;
+			var verticalSquares = 10;
+
+			var offset = -36;
+			var counter = 0;
+			var internalCounter = 0;
+
+			_.each(_.range(verticalSquares), function(vertic){
+
+				var tmpOffset;
+
+				if(counter % 4 == 0)
+					tmpOffset = offset + 18;
+
+				else if(counter % 4 == 1)
+					tmpOffset = offset + 36;
+
+				else if(counter % 4 == 2)
+					tmpOffset = offset + 9;
+
+				else
+					tmpOffset = offset;
+
+				_.each(_.range(horizontalSquares), function(horiz){
+
+					var tmpShape = new Shape((horiz * squareWidth + horizontalMargin * horiz) + tmpOffset, vertic * squareHeight + verticalMargin * vertic, squareWidth, squareHeight);
+
+					tmpShape.draw(ctx, !!(internalCounter % 2));
+
+					internalCounter++;
+				});
+
+				counter++;
+			});
+		</script>		
+
+	</body>
+</html>
